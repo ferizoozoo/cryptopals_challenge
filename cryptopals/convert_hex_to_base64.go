@@ -5,7 +5,7 @@ import (
 	"encoding/hex"
 )
 
-func hexToBase64String(hexString string) string {
+func HexToBase64String(hexString string) string {
 	hexBytes, err := hex.DecodeString(hexString)
 	if err != nil {
 		panic(err)
