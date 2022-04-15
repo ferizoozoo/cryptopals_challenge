@@ -4,6 +4,7 @@ import (
 	"encoding/hex"
 	"math"
 	"regexp"
+	"unicode"
 	"unicode/utf8"
 )
 
@@ -24,7 +25,26 @@ func SingleByteXorCipher(hexStringInput string, key byte) string {
 
 var IsLetter = regexp.MustCompile(`^[a-zA-Z]+$`).MatchString
 
-func FindApropriateKeyWithSingleByteXorCipher(hexStringInput string) (byte, string) {
+func FindCorrectPlainTextWithSingleByteXorCipher(hexStringInput string) string {
+	plainTextScores := findScores(hexStringInput)
+	correctPlainText, _ := minOfPlainTextScoreMap(plainTextScores)
+	return correctPlainText
+}
+
+func minOfPlainTextScoreMap(m map[string]float64) (string, float64) {
+	minVal := math.Inf(1)
+	minKey := "a"
+
+	for k, v := range m {
+		if v <= minVal {
+			minVal = v
+			minKey = k
+		}
+	}
+	return minKey, minVal
+}
+
+func findScores(hexStringInput string) map[string]float64 {
 	letterFrequency := map[byte]float64{
 		'e': 0.1202,
 		't': 0.0910,
@@ -54,9 +74,7 @@ func FindApropriateKeyWithSingleByteXorCipher(hexStringInput string) (byte, stri
 		'z': 0.0007,
 	}
 
-	minScore := math.Inf(1)
-	var key byte
-	correctPlainText := ""
+	var plainTextScore = make(map[string]float64)
 
 	for i := 0; i < 256; i++ {
 		// get cipher text and check for letter frequencies
@@ -76,16 +94,11 @@ func FindApropriateKeyWithSingleByteXorCipher(hexStringInput string) (byte, stri
 
 		score := 0.0
 		for _, char := range plainText {
-			score += letterFrequency[byte(char)] - float64(letterCountsInPlainText[byte(char)])/float64(plainTextLength)
+			score += letterFrequency[byte(unicode.ToUpper(char))] - float64(letterCountsInPlainText[byte(char)])/float64(plainTextLength)
 		}
 
-		if score <= minScore {
-			correctPlainText = plainText
-			minScore = score
-			key = byte(i)
-		}
-
+		plainTextScore[plainText] = score
 	}
 	// return the text with min score and it's key
-	return key, correctPlainText
+	return plainTextScore
 }
