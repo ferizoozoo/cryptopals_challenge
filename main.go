@@ -12,10 +12,8 @@ func main() {
 
 	// cryptopals.DetectSingleCharacterXor()
 	// fmt.Println(cryptopals.RepeatingKeyXorEncryption("Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal", "ICE"))
-	// fmt.Println(cryptopals.HammingDistance("this is a test", "wokka wokka!!!"))
+	// fmt.Println(cryptopals.HammingDistance([]byte("this is a test"), []byte("wokka wokka!!!")))
 
 	data, _ := os.ReadFile("C:/Users/Asus/Desktop/6.txt")
-	strdata := string(data)
-	cryptopals.FindKeySize(strdata)
-	fmt.Print(cryptopals.FindEncryptionKey(strdata))
+	fmt.Print(cryptopals.FindEncryptionKey(data))
 }
