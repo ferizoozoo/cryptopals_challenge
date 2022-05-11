@@ -6,18 +6,18 @@ import (
 	"strings"
 )
 
-var KEYSIZE int = 2
+var MAX_KEYSIZE int = 40
 
-func HammingDistance(firstString string, secondString string) int {
-	if len(firstString) != len(secondString) {
+func HammingDistance(x1 []byte, x2 []byte) int {
+	if len(x1) != len(x2) {
 		return -1
 	}
 
 	distance := 0
 
-	for index := 0; index < len(firstString); index++ {
-		byte1 := firstString[index]
-		byte2 := secondString[index]
+	for index := 0; index < len(x1); index++ {
+		byte1 := x1[index]
+		byte2 := x2[index]
 
 		for bit_index := 0; bit_index < 7; bit_index++ {
 			mask := byte(1 << bit_index)
@@ -33,32 +33,35 @@ func HammingDistance(firstString string, secondString string) int {
 	return distance
 }
 
-func FindKeySize(message string) {
+func FindKeySize(message []byte) int {
 	minDistance := math.Inf(1)
+	rightKeysize := 2
 
 	for keysize := 2; keysize <= 40; keysize++ {
-		firstSubString := message[:KEYSIZE]
-		secondSubString := message[KEYSIZE : KEYSIZE*2]
+		firstChunk := message[:keysize]
+		secondChunk := message[keysize : keysize*2]
 
-		distance := HammingDistance(firstSubString, secondSubString)
+		distance := HammingDistance(firstChunk, secondChunk)
 
 		if float64(distance) < minDistance {
 			minDistance = float64(distance) / float64(keysize)
-			KEYSIZE = keysize
+			rightKeysize = keysize
 		}
 	}
+
+	return rightKeysize
 }
 
-func BreakCiphertextIntoTransposedBlocks(ciphertext string) [][]byte {
+func BreakCiphertextIntoTransposedBlocks(ciphertext []byte, keysize int) [][]byte {
 	var blocks [][]byte
 
-	for byte_index := 0; byte_index < len(ciphertext)-KEYSIZE; byte_index += KEYSIZE {
-		blocks = append(blocks, []byte(ciphertext)[byte_index:byte_index+KEYSIZE])
+	for byte_index := 0; byte_index < len(ciphertext)-keysize; byte_index += keysize {
+		blocks = append(blocks, []byte(ciphertext)[byte_index:byte_index+keysize])
 	}
 
 	var transposedBlocks [][]byte
 
-	for b := 0; b < KEYSIZE; b++ {
+	for b := 0; b < keysize; b++ {
 		var transposedBlock []byte
 		for block := 0; block < len(blocks); block++ {
 			transposedBlock = append(transposedBlock, blocks[block][b])
@@ -69,9 +72,10 @@ func BreakCiphertextIntoTransposedBlocks(ciphertext string) [][]byte {
 	return transposedBlocks
 }
 
-func FindEncryptionKey(ciphertext string) string {
+func FindEncryptionKey(ciphertext []byte) string {
 	var correctKeyOfEachBlock []string
-	blocks := BreakCiphertextIntoTransposedBlocks(ciphertext)
+	rightKeySize := FindKeySize(ciphertext)
+	blocks := BreakCiphertextIntoTransposedBlocks(ciphertext, rightKeySize)
 
 	for _, block := range blocks {
 		//TODO: bring the code for single byte xor cipher key finder here and change it to use just byte arrays
