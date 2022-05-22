@@ -1,17 +1,14 @@
 package cryptopals
 
-import "encoding/hex"
-
-func RepeatingKeyXorEncryption(plainText string, key string) string {
-	plainTextBytes := []byte(plainText)
-	plainTextBytesLength := len(plainTextBytes)
+func RepeatingKeyXorEncryption(plainText []byte, key []byte) []byte {
+	plainTextLength := len(plainText)
 	keyLength := len(key)
 
-	cipherText := make([]byte, len(plainTextBytes))
+	cipherText := make([]byte, len(plainText))
 
-	for i := 0; i < plainTextBytesLength; i++ {
-		cipherText[i] = plainTextBytes[i] ^ byte(key[(i)%keyLength])
+	for i := 0; i < plainTextLength; i++ {
+		cipherText[i] = plainText[i] ^ key[(i)%keyLength]
 	}
 
-	return hex.EncodeToString(cipherText)
+	return cipherText
 }
