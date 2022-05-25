@@ -19,7 +19,7 @@ func DetectSingleCharacterXor() {
 		}
 
 		// Add scores of each ciphertext to the plaintextscore table
-		newPlainTextScore := findScores(message)
+		newPlainTextScore := findScores([]byte(message))
 		for k, v := range newPlainTextScore {
 			plainTextScore[k] = v
 		}

@@ -1,7 +1,6 @@
 package cryptopals
 
 import (
-	"encoding/hex"
 	"math"
 	"strings"
 )
@@ -78,9 +77,7 @@ func FindEncryptionKey(ciphertext []byte) string {
 	blocks := breakCiphertextIntoTransposedBlocks(ciphertext, rightKeySize)
 
 	for _, block := range blocks {
-		//TODO: bring the code for single byte xor cipher key finder here and change it to use just byte arrays
-		hexString := hex.EncodeToString(block)
-		correctKey := FindCorrectPlainTextWithSingleByteXorCipher(hexString)
+		correctKey := FindCorrectPlainTextWithSingleByteXorCipher(block)
 		correctKeyOfEachBlock = append(correctKeyOfEachBlock, correctKey)
 	}
 
