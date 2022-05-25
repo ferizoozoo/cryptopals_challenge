@@ -1,25 +1,16 @@
 package cryptopals
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"sort"
 )
 
-func DetectSingleCharacterXor() {
+func DetectSingleCharacterXor(messages [][]byte) {
 	var plainTextScore = make(map[string]float64)
 
-	scanner := bufio.NewScanner(os.Stdin)
-	for scanner.Scan() {
-		message := scanner.Text()
-
-		if message == "" {
-			break
-		}
-
+	for _, message := range messages {
 		// Add scores of each ciphertext to the plaintextscore table
-		newPlainTextScore := findScores([]byte(message))
+		newPlainTextScore := findScores(message)
 		for k, v := range newPlainTextScore {
 			plainTextScore[k] = v
 		}
