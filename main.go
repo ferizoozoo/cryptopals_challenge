@@ -1,11 +1,9 @@
 package main
 
 import (
-	"bufio"
 	"cryptopals/cryptopals"
 	"encoding/hex"
 	"fmt"
-	"os"
 )
 
 func main() {
@@ -16,25 +14,26 @@ func main() {
 	// msg, _ := hex.DecodeString("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736")
 	// fmt.Printf("%s", cryptopals.FindCorrectPlainTextWithSingleByteXorCipher(msg))
 
-	var messages [][]byte
-	file, err := os.Open("C:/Users/Asus/Desktop/4.txt")
-	if err != nil {
-		return
-	}
-	defer file.Close()
+	// var messages [][]byte
+	// file, err := os.Open("C:/Users/Asus/Desktop/4.txt")
+	// if err != nil {
+	// 	return
+	// }
+	// defer file.Close()
 
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		plaintext := scanner.Text()
-		if plaintext == "" {
-			break
-		}
-		hexPT, _ := hex.DecodeString(plaintext)
-		messages = append(messages, hexPT)
-	}
+	// scanner := bufio.NewScanner(file)
+	// for scanner.Scan() {
+	// 	plaintext := scanner.Text()
+	// 	if plaintext == "" {
+	// 		break
+	// 	}
+	// 	hexPT, _ := hex.DecodeString(plaintext)
+	// 	messages = append(messages, hexPT)
+	// }
 
-	fmt.Printf("%s", cryptopals.DetectSingleCharacterXor(messages))
-	// fmt.Println(string(cryptopals.RepeatingKeyXorEncryption([]byte("Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal"), []byte("ICE"))))
+	// fmt.Printf("%s", cryptopals.DetectSingleCharacterXor(messages))
+	res := cryptopals.RepeatingKeyXorEncryption([]byte("Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal"), []byte("ICE"))
+	fmt.Println(hex.EncodeToString(res))
 	// fmt.Println(cryptopals.HammingDistance([]byte("this is a test"), []byte("wokka wokka!!!")))
 
 	// file, err := os.Open("C:/Users/Asus/Desktop/6.txt")
