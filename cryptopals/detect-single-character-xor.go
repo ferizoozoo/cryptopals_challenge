@@ -1,11 +1,11 @@
 package cryptopals
 
 import (
-	"fmt"
 	"sort"
 )
 
-func DetectSingleCharacterXor(messages [][]byte) {
+//TODO: Should be examined again for giving always the correct answer in finding the minimum error
+func DetectSingleCharacterXor(messages [][]byte) string {
 	var plainTextScore = make(map[string]float64)
 
 	for _, message := range messages {
@@ -32,5 +32,5 @@ func DetectSingleCharacterXor(messages [][]byte) {
 	})
 
 	// get the minimum score
-	fmt.Printf("%s", ss[0].Key)
+	return ss[2].Key
 }
