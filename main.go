@@ -2,8 +2,10 @@ package main
 
 import (
 	"cryptopals/cryptopals"
-	"encoding/hex"
+	"encoding/base64"
 	"fmt"
+	"io/ioutil"
+	"os"
 )
 
 func main() {
@@ -32,20 +34,22 @@ func main() {
 	// }
 
 	// fmt.Printf("%s", cryptopals.DetectSingleCharacterXor(messages))
-	res := cryptopals.RepeatingKeyXorEncryption([]byte("Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal"), []byte("ICE"))
-	fmt.Println(hex.EncodeToString(res))
+	// res := cryptopals.RepeatingKeyXorEncryption([]byte("Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal"), []byte("ICE"))
+	// fmt.Println(hex.EncodeToString(res))
 	// fmt.Println(cryptopals.HammingDistance([]byte("this is a test"), []byte("wokka wokka!!!")))
 
-	// file, err := os.Open("C:/Users/Asus/Desktop/6.txt")
-	// if err != nil {
-	// 	return
-	// }
-	// defer file.Close()
+	file, err := os.Open("C:/Users/f.zohooralishahi/Desktop/7.txt")
+	if err != nil {
+		return
+	}
+	defer file.Close()
 
-	// bytes, err := ioutil.ReadAll(base64.NewDecoder(base64.StdEncoding, file))
-	// if err != nil {
-	// 	return
-	// }
+	bytes, err := ioutil.ReadAll(base64.NewDecoder(base64.StdEncoding, file))
+	if err != nil {
+		return
+	}
 
 	// fmt.Print(cryptopals.FindEncryptionKey(bytes))
+
+	fmt.Println(string(cryptopals.DecryptAES128ECBWith(bytes, []byte("YELLOW SUBMARINE"), 16)))
 }
