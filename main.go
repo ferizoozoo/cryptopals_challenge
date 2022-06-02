@@ -1,10 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"cryptopals/cryptopals"
-	"encoding/base64"
+	"encoding/hex"
 	"fmt"
-	"io/ioutil"
 	"os"
 )
 
@@ -16,40 +16,41 @@ func main() {
 	// msg, _ := hex.DecodeString("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736")
 	// fmt.Printf("%s", cryptopals.FindCorrectPlainTextWithSingleByteXorCipher(msg))
 
-	// var messages [][]byte
-	// file, err := os.Open("C:/Users/Asus/Desktop/4.txt")
-	// if err != nil {
-	// 	return
-	// }
-	// defer file.Close()
+	var messages [][]byte
+	file, err := os.Open("C:/Users/Asus/Desktop/8.txt")
+	if err != nil {
+		return
+	}
+	defer file.Close()
 
-	// scanner := bufio.NewScanner(file)
-	// for scanner.Scan() {
-	// 	plaintext := scanner.Text()
-	// 	if plaintext == "" {
-	// 		break
-	// 	}
-	// 	hexPT, _ := hex.DecodeString(plaintext)
-	// 	messages = append(messages, hexPT)
-	// }
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		plaintext := scanner.Text()
+		if plaintext == "" {
+			break
+		}
+		hexPT, _ := hex.DecodeString(plaintext)
+		messages = append(messages, hexPT)
+	}
 
 	// fmt.Printf("%s", cryptopals.DetectSingleCharacterXor(messages))
 	// res := cryptopals.RepeatingKeyXorEncryption([]byte("Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal"), []byte("ICE"))
 	// fmt.Println(hex.EncodeToString(res))
 	// fmt.Println(cryptopals.HammingDistance([]byte("this is a test"), []byte("wokka wokka!!!")))
 
-	file, err := os.Open("C:/Users/f.zohooralishahi/Desktop/7.txt")
-	if err != nil {
-		return
-	}
-	defer file.Close()
+	// file, err := os.Open("C:/Users/Asus/Desktop/8.txt")
+	// if err != nil {
+	// 	return
+	// }
+	// defer file.Close()
 
-	bytes, err := ioutil.ReadAll(base64.NewDecoder(base64.StdEncoding, file))
-	if err != nil {
-		return
-	}
+	// bytes, err := ioutil.ReadAll(hex.NewDecoder(hex.StdEncoding, file))
+	// if err != nil {
+	// 	return
+	// }
 
 	// fmt.Print(cryptopals.FindEncryptionKey(bytes))
 
-	fmt.Println(string(cryptopals.DecryptAES128ECBWith(bytes, []byte("YELLOW SUBMARINE"), 16)))
+	// fmt.Println(string(cryptopals.DecryptAES128ECBWith(bytes, []byte("YELLOW SUBMARINE"), 16)))
+	fmt.Println(hex.EncodeToString(cryptopals.DetectAES128ECB(messages)))
 }
