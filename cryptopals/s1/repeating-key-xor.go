@@ -1,4 +1,4 @@
-package cryptopals
+package s1
 
 func RepeatingKeyXorEncryption(plainText []byte, key []byte) []byte {
 	plainTextLength := len(plainText)

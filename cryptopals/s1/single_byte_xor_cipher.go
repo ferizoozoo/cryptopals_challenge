@@ -1,4 +1,4 @@
-package cryptopals
+package s1
 
 import (
 	"cryptopals/cryptopals/utils"
