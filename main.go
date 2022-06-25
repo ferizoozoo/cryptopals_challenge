@@ -1,7 +1,7 @@
 package main
 
 import (
-	"cryptopals/cryptopals/s1"
+	"cryptopals/cryptopals/s2"
 	"fmt"
 )
 
@@ -33,7 +33,7 @@ func main() {
 	// fmt.Printf("%s", cryptopals.DetectSingleCharacterXor(messages))
 	// res := cryptopals.RepeatingKeyXorEncryption([]byte("Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal"), []byte("ICE"))
 	// fmt.Println(hex.EncodeToString(res))
-	fmt.Println(s1.HammingDistance([]byte("this is a test"), []byte("wokka wokka!!!")))
+	// fmt.Println(s1.HammingDistance([]byte("this is a test"), []byte("wokka wokka!!!")))
 
 	// file, err := os.Open("C:/Users/Asus/Desktop/8.txt")
 	// if err != nil {
@@ -50,4 +50,6 @@ func main() {
 
 	// fmt.Println(string(cryptopals.DecryptAES128ECBWith(bytes, []byte("YELLOW SUBMARINE"), 16)))
 	// fmt.Println(hex.EncodeToString(cryptopals.DetectAES128ECB(messages)))
+
+	fmt.Print(string(s2.PKCS7Padding([]byte("YELLOW SUBMARINE"), 20)))
 }
